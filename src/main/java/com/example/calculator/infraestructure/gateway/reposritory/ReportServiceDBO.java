@@ -1,6 +1,6 @@
 package com.example.calculator.infraestructure.gateway.reposritory;
 
-import com.example.calculator.core.domain.ReportService;
+import com.example.calculator.core.domain.ReportDates;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,14 +26,10 @@ public class ReportServiceDBO {
     public ReportServiceDBO() {
     }
 
-    public ReportService toDomain() {
-        return new ReportService(
-                technicianId,
-                 serviceId,
-                startService,
-                endService,
-                weekNumber,
-                totalHours
+    public ReportDates toReportDate() {
+        return new ReportDates(
+               startService,
+                endService
         );
     }
 
@@ -42,8 +38,7 @@ public class ReportServiceDBO {
     public static ReportServiceDBO fromResultSet(ResultSet resultSet) throws SQLException {
         ReportServiceDBO dbo = new ReportServiceDBO();
 
-        dbo.setTechnicianId (resultSet.getString("technician_id"));
-        dbo.setServiceId(resultSet.getString("service_id"));
+
         dbo.setStartService(resultSet.getTimestamp("start_service").toLocalDateTime());
         dbo.setEndService(resultSet.getTimestamp("end_service").toLocalDateTime());
 

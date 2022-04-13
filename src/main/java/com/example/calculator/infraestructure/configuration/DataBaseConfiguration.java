@@ -16,9 +16,6 @@ public class DataBaseConfiguration {
         config.setJdbcUrl("jdbc:postgresql://localhost:5433/report_db");
         config.setUsername("postgres_user");
         config.setPassword("postgres_password");
-
-
-
         return new HikariDataSource(config);
 
 

@@ -1,9 +1,9 @@
 package com.example.calculator.core.gateway;
 
+import com.example.calculator.core.domain.ReportDates;
 import com.example.calculator.core.domain.ReportService;
-import com.example.calculator.core.domain.TotalWeekReport;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface ReportServiceReporsitory {
 
@@ -12,7 +12,12 @@ public interface ReportServiceReporsitory {
 
     void insert(ReportService reportService);
 
-    Optional<TotalWeekReport> get(String technicianId, Integer weekNumber);
-    //Optional es una clase que empaqueta
-    //es para que me devuelva un valor opcional ya que puede devolver null u el objeto como tal
+
+    List<ReportDates> getListReport(String technicianId, Integer weekNumber);
+
+
+
+
+
+
 }

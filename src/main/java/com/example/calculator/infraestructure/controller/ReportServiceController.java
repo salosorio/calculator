@@ -1,13 +1,11 @@
 package com.example.calculator.infraestructure.controller;
 
+import com.example.calculator.core.domain.TotalWeekReport;
 import com.example.calculator.infraestructure.controller.model.ReportServiceDTO;
 import com.example.calculator.infraestructure.controller.model.ReportServiceInput;
 import com.example.calculator.core.domain.ReportService;
-import com.example.calculator.infraestructure.controller.model.TotalWeekReportDTO;
 import com.example.calculator.infraestructure.service.ReportServiceService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 
 @RestController
@@ -16,25 +14,25 @@ public class ReportServiceController {
 
     private final ReportServiceService service;  //inyecta la clase service
 
-    public ReportServiceController(ReportServiceService reportServiceService) {
+    public ReportServiceController (ReportServiceService reportServiceService) {
         this.service = reportServiceService;
     }
 
 
     //Existe dos get (get one que es con id - get list )
     @GetMapping(value = "/{technician}/{week}")
-    public Optional<TotalWeekReportDTO> getTotalWeekReport(
+    public TotalWeekReport getTotalWeekReport(
             @PathVariable("technician") String technicianId, @PathVariable("week") Integer weekNumber
     ) {
-
-        return service.getTotalWeekReport(technicianId,weekNumber);
+        TotalWeekReport totalWeekReport = service.getTotalReport(technicianId, weekNumber);
+        return totalWeekReport;
     }
 
-   /* @GetMapping
+  /*  @GetMapping
     public List<ReportServiceDTO> listReportService() {
         return service.listReportService();
-    }
-*/
+    }*/
+
 
     @PostMapping
         public ReportServiceDTO createReport(

@@ -6,11 +6,17 @@ public class TotalWeekReportDTO {
     private String technicianId;
     private Integer weekNumber;
     private Integer totalHours;
+    private Integer hoursNight;
+    private Integer hoursDay;
+    private Integer hoursSunday;
 
-    public TotalWeekReportDTO(String technicianId, Integer weekNumber, Integer totalHours) {
+    public TotalWeekReportDTO(String technicianId, Integer weekNumber, Integer totalHours, Integer hoursNight, Integer hoursDay, Integer hoursSunday) {
         this.technicianId = technicianId;
         this.weekNumber = weekNumber;
         this.totalHours = totalHours;
+        this.hoursNight = hoursNight;
+        this.hoursDay = hoursDay;
+        this.hoursSunday = hoursSunday;
     }
 
     public TotalWeekReportDTO() {
@@ -20,7 +26,10 @@ public class TotalWeekReportDTO {
         return new TotalWeekReportDTO(
                 totalWeekReport.getTechnicianId(),
                 totalWeekReport.getWeekNumber(),
-                totalWeekReport.getTotalHours()
+                totalWeekReport.getTotalHours(),
+                totalWeekReport.getHoursNight(),
+                totalWeekReport.getHoursDay(),
+                totalWeekReport.getSundayHours()
         );
     }
 
@@ -47,4 +56,16 @@ public class TotalWeekReportDTO {
     public void setTotalHours(Integer totalHours) {
         this.totalHours = totalHours;
     }
+
+    public Integer getHoursNight() { return hoursNight; }
+
+    public void setHoursNight(Integer hours_night) { this.hoursNight = hours_night; }
+
+    public Integer getHoursDay() { return hoursDay; }
+
+    public void setHoursDay(Integer hours_day) { this.hoursDay = hours_day; }
+
+    public Integer getHoursSunday() { return hoursSunday; }
+
+    public void setHoursSunday(Integer hours_sunday) { this.hoursSunday = hours_sunday;}
 }

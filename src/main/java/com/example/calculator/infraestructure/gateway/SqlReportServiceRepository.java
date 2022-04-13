@@ -1,15 +1,15 @@
 package com.example.calculator.infraestructure.gateway;
 
+import com.example.calculator.core.domain.ReportDates;
 import com.example.calculator.core.domain.ReportService;
-import com.example.calculator.core.domain.TotalWeekReport;
 import com.example.calculator.core.gateway.ReportServiceReporsitory;
 import com.example.calculator.infraestructure.gateway.reposritory.ReportServiceDBO;
-import com.example.calculator.infraestructure.gateway.reposritory.TotalWeekReportDBO;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class SqlReportServiceRepository  implements ReportServiceReporsitory {
@@ -47,35 +47,38 @@ public class SqlReportServiceRepository  implements ReportServiceReporsitory {
 
     }
 
+
+
     @Override
-   public Optional<TotalWeekReport> get(String technicianId, Integer weekNumber) {
-        String sql = "SELECT total_hours FROM report_service WHERE technician_id = ? AND week_number = ? ";
+   public List<ReportDates> getListReport(String technicianId, Integer weekNumber) {
+        String sql = "SELECT start_service , end_service FROM report_service WHERE technician_id = ? AND week_number = ? ";
 
         try (Connection connection = dataSource.getConnection(); //las conexiones pueden fallar
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             //solo tengo q settear
             preparedStatement.setString(1, technicianId);
-            preparedStatement.setInt(2,weekNumber);
+            preparedStatement.setInt(2, weekNumber);
 
             //El preparedStatement ejecuta el Query y retorna un resultSer
             ResultSet resultSet = preparedStatement.executeQuery();
+            List<ReportDates> result = new ArrayList<>();
 
-            if (resultSet.next()) {
+
+            //acá recorremos los registros con
+            while (resultSet.next()) {
                 //el objeto que se creo apartir de resultSet lo almaceno en el objeto maintenanceDBO
-                TotalWeekReportDBO totalWeekReportDBO = TotalWeekReportDBO.fromResultSet(resultSet);
-                //el totalWeekRDbo lo va a convertir en un domain
-                TotalWeekReport totalWeekReport = totalWeekReportDBO.toDomain();
-
-                //se usa of al saber que no es nulo
-                return Optional.of(totalWeekReport);
-            } else {
-                return Optional.empty(); //retorna u vacio porque no hay registro
+                ReportServiceDBO reportServiceDBO = ReportServiceDBO.fromResultSet(resultSet);
+                ReportDates dates = reportServiceDBO.toReportDate();
+                result.add(dates);
             }
+
+            resultSet.close(); //aca cerramos la conexión
+
+            return result;
         } catch (SQLException exception) {
             throw new RuntimeException("Error querying database", exception);
         }
-
     }
 }
 

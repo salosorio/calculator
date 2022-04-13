@@ -20,6 +20,7 @@ public class ReportService {
         this.startService = Validate.notNull(startService);
         Validate.isTrue(LocalDateTime.now().isAfter(startService));
         this.endService = Validate.notNull(endService);
+        Validate.isTrue(LocalDateTime.now().isAfter(startService) && endService.isBefore(LocalDateTime.now()));
         this.weekNumber = Validate.notNull(week);
                 Validate.isTrue(week <= 53);
         this.totalHours = Validate.notNull(totalHours);
